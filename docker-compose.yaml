@@ -9,7 +9,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - rp_pg_data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
     networks:
       - request-processor-network
 

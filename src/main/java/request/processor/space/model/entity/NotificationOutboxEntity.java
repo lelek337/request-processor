@@ -27,7 +27,7 @@ public class NotificationOutboxEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID uuid;
+    private UUID id;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, columnDefinition = "timestamp")

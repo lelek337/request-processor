@@ -16,7 +16,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:${REQUEST_PROCESSOR_DATABASE_URL:postgresql://localhost:5433/postgres}?currentSchema=${db-schema}&ApplicationName=${spring.application.name}
+    url: jdbc:${REQUEST_PROCESSOR_DATABASE_URL:postgresql://localhost:5433/request_processor}?currentSchema=${db-schema}&ApplicationName=${spring.application.name}
     username: ${REQUEST_PROCESSOR_DATABASE_USERNAME:rp_user}
     password: ${REQUEST_PROCESSOR_DATABASE_PASSWORD:rp_pass}
 
@@ -31,7 +31,7 @@ spring:
     open-in-view: false
 
   liquibase:
-    change-log: classpath:db/changelog/db.changelog-master.xml
+    change-log: db/changelog/changelog-master.xml
     default-schema: ${db-schema}
 
   kafka:
@@ -65,8 +65,8 @@ spring:
 
 scheduler:
   batch-size: 1
-  ms: 20
-  send-timeout-m: 5000
+  timeout-ms: 20
+  cron: "2 * * * * *"
 
 management:
   endpoint:
