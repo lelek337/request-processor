@@ -58,8 +58,15 @@ spring:
 
     #        spring.json.add.type.headers: false
     topic:
-      application-events: application-events
-      user-events: user-events
+      sms-events: sms-events
+      email-events: email-events
+      push-events: push-events
+      telegram-events: telegram-events
+
+scheduler:
+  batch-size: 1
+  ms: 20
+  send-timeout-m: 5000
 
 management:
   endpoint:
