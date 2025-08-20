@@ -1,0 +1,9 @@
+package request.processor.space.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import request.processor.space.model.entity.NotificationOutboxEntity;
+
+import java.util.UUID;
+
+public interface NotificationOutboxRepository extends JpaRepository<NotificationOutboxEntity, UUID> {
+}

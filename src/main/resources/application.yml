@@ -1,0 +1,84 @@
+server:
+  port: 9191
+
+logging:
+  config:
+    classpath: log4j2.xml
+
+db-schema: request_processor
+
+project:
+  version: @project.version@
+
+spring:
+  application:
+    name: request_processor
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:${REQUEST_PROCESSOR_DATABASE_URL:postgresql://localhost:5433/postgres}?currentSchema=${db-schema}&ApplicationName=${spring.application.name}
+    username: ${REQUEST_PROCESSOR_DATABASE_USERNAME:rp_user}
+    password: ${REQUEST_PROCESSOR_DATABASE_PASSWORD:rp_pass}
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: false
+    open-in-view: false
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    default-schema: ${db-schema}
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: request_processor
+      auto-offset-reset: earliest
+      auto-commit-interval: 100ms
+      session-timeout: 15000ms
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+        spring.json.type.mapping: "user_event:com.itm.space.kafka.event.UserEventConsume"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        spring.json.type.mapping: "user_event:com.itm.space.kafka.event.UserEventProduce"
+    retries:
+      max-retries: 3
+      interval-ms: 1000
+
+    #        spring.json.add.type.headers: false
+    topic:
+      application-events: application-events
+      user-events: user-events
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      show-details: always
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${SWAGGER_UI_CLIENT_ID:request_processor}
+      client-secret: ${SWAGGER_UI_CLIENT_SECRET:**********}
