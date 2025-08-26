@@ -14,6 +14,11 @@ spring:
   application:
     name: request_processor
 
+  security:
+    user:
+      name: Ivan
+      password: 1234
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:${REQUEST_PROCESSOR_DATABASE_URL:postgresql://localhost:5433/request_processor}?currentSchema=${db-schema}&ApplicationName=${spring.application.name}
@@ -45,13 +50,10 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
       properties:
         spring.json.trusted.packages: "*"
-        spring.json.type.mapping: "user_event:com.itm.space.kafka.event.UserEventConsume"
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
-      properties:
-        spring.json.type.mapping: "user_event:com.itm.space.kafka.event.UserEventProduce"
     retries:
       max-retries: 3
       interval-ms: 1000
@@ -65,7 +67,7 @@ spring:
 
 scheduler:
   batch-size: 1
-  timeout-ms: 20
+  timeout-ms: 12000
   cron: "2 * * * * *"
 
 management:
@@ -85,7 +87,9 @@ management:
       enabled: true
 
 springdoc:
+  api-docs:
+    path: /v3/api-docs
   swagger-ui:
-    oauth:
-      client-id: ${SWAGGER_UI_CLIENT_ID:request_processor}
-      client-secret: ${SWAGGER_UI_CLIENT_SECRET:**********}
+    url: /v3/api-docs
+
+
