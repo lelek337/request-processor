@@ -2,7 +2,6 @@ package request.processor.space.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import request.processor.space.mapper.NotificationOutboxMapper;
 import request.processor.space.model.dto.NotificationOutboxDto;
@@ -22,6 +21,7 @@ public class RequestProcessorService {
     public NotificationOutboxDto processMessage(RequestNotifications request) {
 
         NotificationOutboxEntity outbox = strategyFactory.get(request.getType()).prepare(request);
+        log.info("outbox: {}", outbox);
         NotificationOutboxEntity notificationOutbox = repository.save(outbox);
         NotificationOutboxDto notificationOutboxDto = mapper.toDto(notificationOutbox);
 

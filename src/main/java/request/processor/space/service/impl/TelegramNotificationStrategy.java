@@ -5,6 +5,7 @@ import request.processor.space.constant.EnumType;
 import request.processor.space.model.entity.NotificationOutboxEntity;
 import request.processor.space.model.request.RequestNotifications;
 import request.processor.space.service.NotificationStrategy;
+import request.processor.space.util.NotificationOutboxUtil;
 
 @Service
 public class TelegramNotificationStrategy implements NotificationStrategy {
@@ -16,6 +17,6 @@ public class TelegramNotificationStrategy implements NotificationStrategy {
 
     @Override
     public NotificationOutboxEntity prepare(RequestNotifications request) {
-        return null;
+        return NotificationOutboxUtil.build(getType(), request);
     }
 }

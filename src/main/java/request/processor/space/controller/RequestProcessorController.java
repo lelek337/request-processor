@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import request.processor.space.model.dto.NotificationOutboxDto;
-import request.processor.space.model.entity.NotificationOutboxEntity;
 import request.processor.space.model.request.RequestNotifications;
 
 import static request.processor.space.constant.ApiConstant.BASE_API;
@@ -24,7 +23,7 @@ public interface RequestProcessorController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Успешное создание сообщения"),
             @ApiResponse(responseCode = "400", description = "Неправельные параметры запроса"),
-            @ApiResponse(responseCode = "4500", description = "Внутренняя ошибка сервера")
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера")
     })
             @PostMapping
     ResponseEntity<NotificationOutboxDto> createMessage(@Valid @RequestBody RequestNotifications request);

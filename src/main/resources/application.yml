@@ -14,11 +14,6 @@ spring:
   application:
     name: request_processor
 
-  security:
-    user:
-      name: Ivan
-      password: 1234
-
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:${REQUEST_PROCESSOR_DATABASE_URL:postgresql://localhost:5433/request_processor}?currentSchema=${db-schema}&ApplicationName=${spring.application.name}
