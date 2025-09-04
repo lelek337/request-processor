@@ -60,7 +60,6 @@ public class SchedulerService {
         return repository.findBySentFalseOrderByCreatedAtAsc(PageRequest.of(0, batchSize));
     }
 
-    @Transactional
     protected void savBatchSafely(List<NotificationOutboxEntity> list) {
         repository.saveAll(list);
     }
